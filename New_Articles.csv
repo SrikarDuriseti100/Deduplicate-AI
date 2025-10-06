@@ -1,0 +1,11 @@
+article_id,title,topic,author_name,affiliation,address,city,state,zipcode,email,phone,publication_date
+N001,Optimizing Modern Techniques in Urban Planning,Urban Planning,Casey Nguyen,AutoDesign Works,1518 Main St,Austin,TX,27464,casey.nguyen@autodesign.com,(457) 846-7276,2024-06-27
+N002,A Comparative Study on Cybersecurity Innovations,Cybersecurity,Liam Wilson,Ballistics Research Center,3650 Main St,Chicago,CA,87123,liam.wilson@ballistics.com,(582) 942-7358,2025-06-01
+N003,Next-Gen Approaches to Military Bulletproof Jackets Research,Military Bulletproof Jackets,Arjun Brown,Qubit Dynamics Lab,1538 Main St,Miami,WA,79299,arjun.brown@qubit.com,(680) 423-7596,2023-02-13
+N004,Renewable Energy Applications for Industry 4.0,Renewable Energy,Alex Lee,Ballistics Research Center,7670 Main St,Miami,CA,20592,alex.lee@ballistics.com,(731) 302-8580,2025-09-27
+N005,Agriculture: Opportunities and Challenges Ahead,Agriculture,Taylor Davis,AutoDesign Works,8344 Main St,Chicago,CA,33281,taylor.davis@autodesign.com,(876) 280-1607,2023-04-23
+N006,Next-Gen Approaches to Agriculture Research,Agriculture,Arjun Lee,NeuroAI Institute,5175 Main St,Chicago,WA,28731,arjun.lee@neuroai.com,(832) 105-7243,2023-12-04
+N007,Car Design Applications for Industry 4.0,Car Design,Priya Davis,AgriTech Labs,9036 Main St,Austin,IL,43761,priya.davis@agritech.com,(613) 944-3070,2023-12-29
+N008,A Comparative Study on Telemedicine Innovations,Telemedicine,Taylor Nguyen,AutoDesign Works,1680 Main St,San Diego,IL,26301,taylor.nguyen@autodesign.com,(321) 247-5849,2023-06-28
+N009,Optimizing Modern Techniques in Car Design,Car Design,Taylor Davis,Sentinel Cyber Labs,4320 Main St,Miami,IL,40658,taylor.davis@sentinel.com,(320) 978-6926,2023-07-10
+N010,AI for Psychology Applications for Industry 4.0,AI for Psychology,Morgan Smith,Qubit Dynamics Lab,6276 Main St,Seattle,FL,38353,morgan.smith@qubit.com,(608) 444-7543,2024-01-31
