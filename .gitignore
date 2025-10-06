@@ -39,3 +39,6 @@ exports/
 
 # Development Files
 PROJECT_CLEAN.md
+
+# Streamlit secrets (for cloud deployment)
+.streamlit/secrets.toml

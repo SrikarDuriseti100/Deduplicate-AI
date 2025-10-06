@@ -95,11 +95,22 @@ st.markdown("""
 def initialize_session_state():
     """Initialize session state variables."""
     if 'config' not in st.session_state:
-        # Load configuration from .env file
-        base_config = Config.get_config()
+        # Load configuration from .env file or Streamlit secrets
+        try:
+            base_config = Config.get_config()
+        except:
+            base_config = {}
+        
+        # Check Streamlit secrets for cloud deployment
+        deepseek_key = ''
+        if hasattr(st, 'secrets'):
+            deepseek_key = st.secrets.get('DEEPSEEK_API_KEY', base_config.get('deepseek_api_key', ''))
+        else:
+            deepseek_key = base_config.get('deepseek_api_key', '')
+            
         st.session_state.config = {
             'embedding_provider': 'deepseek',  # Fixed to DeepSeek only
-            'deepseek_api_key': base_config.get('deepseek_api_key', ''),
+            'deepseek_api_key': deepseek_key,
             'deepseek_base_url': base_config.get('deepseek_base_url', 'https://api.deepseek.com/v1'),
             'deepseek_model': base_config.get('deepseek_model', 'deepseek-chat'),
             'similarity_threshold': base_config.get('similarity_threshold', 0.7),
