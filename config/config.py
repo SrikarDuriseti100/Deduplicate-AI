@@ -17,13 +17,14 @@ class Config:
         # Database settings
         'database_path': 'data/articles.db',
         
-        # AI Provider settings
-        'embedding_provider': 'deepseek',  # Options: 'deepseek', 'tfidf', 'openai', 'huggingface'
+        # AI Provider settings (optimized for fast retrieval)
+        'embedding_provider': 'tfidf',  # Options: 'tfidf' (fast), 'openai', 'huggingface'
         'deepseek_api_key': '',
         'deepseek_base_url': 'https://api.deepseek.com/v1',
         'deepseek_model': 'deepseek-chat',
         'openai_api_key': '',
-        'openai_model': 'text-embedding-ada-002',
+        'openai_base_url': 'https://api.openai.com/v1',
+        'openai_model': 'gpt-oss-20b',
         'huggingface_api_key': '',
         'huggingface_model': 'sentence-transformers/all-MiniLM-L6-v2',
         
@@ -64,6 +65,8 @@ class Config:
             'DEEPSEEK_BASE_URL': 'deepseek_base_url', 
             'DEEPSEEK_MODEL': 'deepseek_model',
             'OPENAI_API_KEY': 'openai_api_key',
+            'OPENAI_BASE_URL': 'openai_base_url',
+            'OPENAI_MODEL': 'openai_model',
             'HUGGINGFACE_API_KEY': 'huggingface_api_key',
             'EMBEDDING_PROVIDER': 'embedding_provider',
             'SIMILARITY_THRESHOLD': 'similarity_threshold',

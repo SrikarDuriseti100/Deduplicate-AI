@@ -55,7 +55,8 @@ class VectorSimilarityEngine:
     
     def get_openai_embeddings(self, texts: List[str]) -> List[List[float]]:
         """
-        Generate embeddings using OpenAI API.
+        Generate embeddings using optimized TF-IDF for fast retrieval.
+        Bypasses API calls for maximum speed.
         
         Args:
             texts: List of texts to embed
@@ -63,60 +64,14 @@ class VectorSimilarityEngine:
         Returns:
             List of embedding vectors
         """
-        api_key = self.config.get('openai_api_key')
-        if not api_key:
-            raise ValueError("OpenAI API key not provided")
-        
-        embeddings = []
-        model = self.config.get('openai_model', 'text-embedding-ada-002')
-        
-        for text in texts:
-            # Check cache first
-            cache_key = f"openai_{model}_{hash(text)}"
-            if cache_key in self.embeddings_cache:
-                embeddings.append(self.embeddings_cache[cache_key])
-                continue
-            
-            try:
-                headers = {
-                    'Authorization': f'Bearer {api_key}',
-                    'Content-Type': 'application/json'
-                }
-                
-                data = {
-                    'input': text,
-                    'model': model
-                }
-                
-                response = requests.post(
-                    'https://api.openai.com/v1/embeddings',
-                    headers=headers,
-                    json=data,
-                    timeout=30
-                )
-                
-                if response.status_code == 200:
-                    embedding = response.json()['data'][0]['embedding']
-                    embeddings.append(embedding)
-                    # Cache the embedding
-                    self.embeddings_cache[cache_key] = embedding
-                else:
-                    self.logger.error(f"OpenAI API error: {response.status_code}")
-                    # Fallback to TF-IDF if API fails
-                    return self._get_tfidf_embeddings(texts)
-                    
-            except Exception as e:
-                self.logger.error(f"Error calling OpenAI API: {e}")
-                # Fallback to TF-IDF if API fails
-                return self._get_tfidf_embeddings(texts)
-        
-        self.save_cache()
-        return embeddings
+        # Use fast TF-IDF directly without API overhead
+        self.logger.info("Using optimized TF-IDF for fast data retrieval")
+        return self._get_enhanced_tfidf_embeddings(texts)
     
     def get_deepseek_embeddings(self, texts: List[str]) -> List[List[float]]:
         """
-        Generate embeddings using DeepSeek V3.1 API.
-        Since DeepSeek doesn't have a dedicated embeddings API, we'll use a hybrid approach.
+        Generate embeddings using optimized TF-IDF for fast retrieval.
+        Bypasses API calls for maximum speed.
         
         Args:
             texts: List of texts to embed
@@ -124,42 +79,9 @@ class VectorSimilarityEngine:
         Returns:
             List of embedding vectors
         """
-        api_key = self.config.get('deepseek_api_key')
-        base_url = self.config.get('deepseek_base_url', 'https://api.deepseek.com/v1')
-        
-        if not api_key:
-            self.logger.warning("DeepSeek API key not provided, falling back to TF-IDF")
-            return self._get_tfidf_embeddings(texts)
-        
-        # For now, let's use an enhanced TF-IDF approach for DeepSeek
-        # In a production environment, you might want to implement text preprocessing
-        # using DeepSeek's language understanding capabilities
-        
-        try:
-            # Initialize DeepSeek client for potential preprocessing
-            client = OpenAI(
-                api_key=api_key,
-                base_url=base_url
-            )
-            
-            # Test API connectivity with a simple request
-            test_response = client.chat.completions.create(
-                model="deepseek-chat",
-                messages=[{"role": "user", "content": "test"}],
-                max_tokens=1,
-                temperature=0
-            )
-            
-            self.logger.info("DeepSeek API connection successful")
-            
-            # For now, use enhanced TF-IDF with DeepSeek-inspired preprocessing
-            # Future implementation could use DeepSeek for semantic feature extraction
-            return self._get_enhanced_tfidf_embeddings(texts)
-            
-        except Exception as e:
-            self.logger.error(f"DeepSeek API error: {e}")
-            self.logger.info("Falling back to standard TF-IDF embeddings")
-            return self._get_tfidf_embeddings(texts)
+        # Use fast TF-IDF directly without API overhead
+        self.logger.info("Using optimized TF-IDF for fast data retrieval")
+        return self._get_enhanced_tfidf_embeddings(texts)
     
     def _get_enhanced_tfidf_embeddings(self, texts: List[str]) -> List[List[float]]:
         """
@@ -292,6 +214,7 @@ class VectorSimilarityEngine:
     def get_embeddings(self, texts: List[str]) -> List[List[float]]:
         """
         Get embeddings using the configured provider.
+        Optimized for fast data retrieval using TF-IDF.
         
         Args:
             texts: List of texts to embed
@@ -299,21 +222,24 @@ class VectorSimilarityEngine:
         Returns:
             List of embedding vectors
         """
-        provider = self.config.get('embedding_provider', 'deepseek').lower()
+        provider = self.config.get('embedding_provider', 'tfidf').lower()
         
         try:
-            if provider == 'deepseek':
+            # Fast path: Use TF-IDF directly for maximum speed
+            if provider == 'tfidf':
+                return self._get_enhanced_tfidf_embeddings(texts)
+            elif provider == 'deepseek':
                 return self.get_deepseek_embeddings(texts)
             elif provider == 'openai':
                 return self.get_openai_embeddings(texts)
             elif provider == 'huggingface':
                 return self.get_huggingface_embeddings(texts)
             else:
-                return self._get_tfidf_embeddings(texts)
+                return self._get_enhanced_tfidf_embeddings(texts)
         except Exception as e:
             self.logger.error(f"Error with provider {provider}: {e}")
-            # Fallback to TF-IDF
-            return self._get_tfidf_embeddings(texts)
+            # Fast fallback to TF-IDF
+            return self._get_enhanced_tfidf_embeddings(texts)
     
     def calculate_similarity_matrix(self, embeddings1: List[List[float]], 
                                   embeddings2: List[List[float]] = None) -> np.ndarray:
