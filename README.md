@@ -4,22 +4,42 @@ AI-powered duplicate detection for article content using vector similarity searc
 
 ## Quick Start
 
+### Option 1: Gradio Interface (Recommended - Modern UI)
+
 1. **Install dependencies:**
    ```cmd
    pip install -r requirements.txt
    ```
 
-2. **Run the application:**
+2. **Run the Gradio application:**
+   ```cmd
+   python gradio_app.py
+   ```
+   Or use the launcher:
+   ```cmd
+   run_gradio.bat
+   ```
+
+3. **Access the interface:**
+   - Open http://localhost:7860 in your browser
+   - Modern, responsive UI with better visualizations
+   - Easier file upload and results viewing
+
+### Option 2: Streamlit Interface (Alternative)
+
+1. **Run the Streamlit application:**
    ```cmd
    cd frontend
    streamlit run app.py
    ```
 
-3. **Use the web interface:**
-   - Load your master XLSX file in "Master Data" tab
-   - Upload new articles to check in "Process Articles" tab  
-   - View similarity percentages and results
-   - Export findings to Excel
+2. **Access at:** http://localhost:8501
+
+### Usage (Both Interfaces)
+- Master database auto-loads (500 articles from Excel file)
+- Upload new CSV/Excel files to check for duplicates  
+- View AI-powered similarity percentages
+- Export detailed results to Excel
 
 ## File Requirements
 
